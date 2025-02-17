@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>깃헙 프사 생성기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      user-select: none;
+    }
+
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 600px;
+      width: 600px;
+      border-radius: 500px;
+      overflow: hidden;
+      box-shadow: 0 0 0 5px #d7dbe0;
+      background-color: #f0f0f0;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container" onclick = "fullImage()">
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+  </div>
+  <button onclick="create()">프사 생성</button>
+  <script>
+    const container = document.getElementById('container');
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let isFull = false;
+
+    const rows = 5; // 행 수
+    const cols = 5; // 열 수
+    const cellWidth = canvas.width / cols; // 각 셀의 너비
+    const cellHeight = canvas.height / rows; // 각 셀의 높이
+
+    // 흐리멍텅한 색상 생성 함수
+    function getPastelColor() {
+      const r = Math.floor(Math.random() * 100); // 0-99 범위
+      const g = Math.floor(Math.random() * 100); // 0-99 범위
+      const b = Math.floor(Math.random() * 100); // 0-99 범위
+      return `rgb(${r + 100}, ${g + 100}, ${b + 100})`; // 100을 더해 100-199 범위로 조정
+    }
+
+    // 색칠된 칸을 추적할 배열
+    const filledCells = new Set();
+
+    function create() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 전체 지우기
+      filledCells.clear(); // 색칠된 칸 기록 초기화
+
+      const color = getPastelColor(); // 랜덤 흐리멍텅한 색상 선택
+
+      // 최소 5칸, 최대 20칸 색칠하기
+      const totalCells = Math.floor(Math.random() * (16)) + 5; // 5에서 20 사이의 랜덤 수
+
+      while (filledCells.size < totalCells) {
+        const randomRow = Math.floor(Math.random() * rows);
+        const randomCol = Math.floor(Math.random() * cols);
+
+        // 대칭 좌표 계산
+        const symmetricCol = cols - randomCol - 1;
+
+        // 이미 색칠된 칸이 아닌 경우에만 색칠
+        if (!filledCells.has(`${randomRow}-${randomCol}`) && !filledCells.has(`${randomRow}-${symmetricCol}`)) {
+          // 원래 위치와 대칭 위치에 색칠
+          ctx.fillStyle = color; // 색상 설정
+          ctx.fillRect(randomCol * cellWidth, randomRow * cellHeight, cellWidth, cellHeight); // 원래 위치
+          ctx.fillRect(symmetricCol * cellWidth, randomRow * cellHeight, cellWidth, cellHeight); // 대칭 위치
+
+          // 색칠된 칸 추적
+          filledCells.add(`${randomRow}-${randomCol}`);
+          filledCells.add(`${randomRow}-${symmetricCol}`);
+        }
+      }
+    }
+
+    function fullImage() {
+      if (isFull) {
+        originalImage();
+      } else {
+        container.style.borderRadius = '0';
+        container.style.boxShadow = 'none';
+        isFull = true;
+      }
+    }
+
+    function originalImage() {
+      container.style.borderRadius = '500px';
+      container.style.boxShadow = '0 0 0 5px #d7dbe0';
+      isFull = false;
+    }
+  </script>
+</body>
+
+</html>
