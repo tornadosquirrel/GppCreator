@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>진보된 깃헙 프사 생성기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+
+<body>
+  <main>
+    <div id="input-container">
+      <div class="settings">폭
+        <input type="number" value="5" min="0" max="100" id="width" oninput="displayColored()">
+        <div style="font-size: 20px;">칸 개수</div>
+        <div id="colored">25</div>
+      </div>
+      <div class="settings">색칠할 칸
+        <div id="input-range">
+          <input type="number" value="20" min="0" max="100" id="range-min" oninput="minInput()">% ~ <input type="number"
+            value="80" min="0" max="100" id="range-max" oninput="maxInput()">%
+        </div>
+      </div>
+    </div>
+    <p id="error">아잉</p>
+    <div id="btn-container">
+      <button onclick="create()">프사 생성!</button>
+      <button id="download" onclick = "downloadImage()">다운로드!</button>
+    </div>
+  </main>
+
+  <div id="result">
+    <p id="notice">*클릭하면 원본 이미지를 볼 수 있습니다.</p>
+    <div id="container" onclick="fullImage()">
+      <canvas id="myCanvas" width="350" height="350"></canvas>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
