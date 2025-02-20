@@ -91,7 +91,7 @@ function create() {
 
 function fullImage() {
   if (isFull) {
-    container.style.borderRadius = '500px';
+    container.style.borderRadius = '1200px';
     container.style.boxShadow = '0 0 0 5px #d7dbe0';
     isFull = false;
   } else {
@@ -156,7 +156,7 @@ function downloadImage() {
   });
 
   if (!isFull && isFull2) {
-    container.style.borderRadius = "500px";
+    container.style.borderRadius = "1200px";
     container.style.boxShadow = "0 0 0 5px #d7dbe0";
     isFull = false;
   }
